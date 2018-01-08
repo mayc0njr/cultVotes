@@ -1,0 +1,21 @@
+{
+  "name": "public",
+  "authors": [
+    "DeivissonFelipe <deivisson48@yahoo.com.br>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "blueimp-file-upload": "jquery-file-upload#^9.19.2",
+    "components-font-awesome": "^4.7.0"
+  }
+}
