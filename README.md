@@ -1,4 +1,4 @@
-#cultVotes
+# CultVotes
 
 A Web-service to manage votes for a cultural music contest
 
