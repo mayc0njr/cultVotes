@@ -22,7 +22,7 @@
 			  <tbody class="text-center">
 				
 				@foreach($musicas as $m)
-				<tr>
+				<tr class="music-row" id="row-{{$m->id}}">
 					<td scope="row">{{ $m->id}}</td>
 					<td>{{$m->nome}}</td>
 					<td>{{$m->autor}}</td>
@@ -40,7 +40,7 @@
 						
 						<span class="btn fileinput-button">
 								<i class="fa fa-music" style="color: blue"></i>
-								<input id="fileupload" type="file" name="documento"
+								<input id="fileupload-{{$m->id}}" type="file" name="documento"
 								data-token="{!! csrf_token() !!}" data-music-id="{{$m->id}}">
 						</span>
 
@@ -59,21 +59,25 @@
 
 @section('scripts')
 @parent
+<script type="text/javascript" src="{{asset('js/queryUtils.js')}}"></script>
 <script>
 	;(function($)
 	{
 	  'use strict';
 	  $(document).ready(function()
 	  {
-	  	var $fileupload     = $('#fileupload'),
+	  	var fileupload     = '#fileupload-',
 	  			$upload_success = $('#upload-success'),
 					progressId;
 
-	    $fileupload.fileupload({
+			var uploads = []
+			$(".music-row").each(function(index, item){
+				var $id = $(fileupload + getId(item.id));
+				$id.fileupload({
 	        url: '/admin/music_upload',
-					formData: {_token: $fileupload.data('token'),  musicId: $fileupload.data('musicId')},
+					formData: {_token: $id.data('token'),  musicId: $id.data('musicId')},
 					start: function(e, data){
-						progressId = '#progress-' + $fileupload.data('musicId') + ' .progress-bar';
+						progressId = '#progress-' + $id.data('musicId') + ' .progress-bar';
 						console.log(progressId);
 					},
 	        progressall: function (e, data) {
@@ -90,7 +94,10 @@
 							location.reload();
 						}, 300);
 					}
-	    });
+				});
+				uploads.push($id);
+			});
+	    
 	  });
 	})(window.jQuery);
 </script>
