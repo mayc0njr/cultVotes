@@ -44,7 +44,7 @@
 						<span class="btn fileinput-button">
 					        <i class="fa fa-music" style="color: blue"></i>
 					        <input id="fileupload" type="file" name="documento"
-					        data-token="{!! csrf_token() !!}">
+					        data-token="{!! csrf_token() !!}" data-music-id="{{$m->id}}">
 					    </span>
 
 						<a class="btn" href="#" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></a>
@@ -68,15 +68,18 @@
 	  'use strict';
 	  $(document).ready(function()
 	  {
-
 	  	var $fileupload     = $('#fileupload'),
-	  		$upload_success = $('#upload-success');
+	  			$upload_success = $('#upload-success');
 
 	    $fileupload.fileupload({
 	        url: '/admin/music_upload',
-	        formData: {_token: $fileupload.data('token')},
+					formData: {_token: $fileupload.data('token'),  musicId: $fileupload.data('musicId')},
+					start: function(e, data){
+						var progressId = '#progress-' + $fileupload.data('musicId');
+						console.log(progressId);
+					},
 	        progressall: function (e, data) {
-	            var progress = parseInt(data.loaded / data.total * 100, 10);
+							var progress = parseInt(data.loaded / data.total * 100, 10);
 	            $('#progress .progress-bar').css(
 	                'width',
 	                progress + '%'
@@ -85,10 +88,10 @@
 	        done: function (e, data) {
 	        	$upload_success.removeClass('hide').hide().slideDown('fast');
 
-			    setTimeout(function(){
-			    	location.reload();
-			    }, 300);
-			}
+						setTimeout(function(){
+							location.reload();
+						}, 300);
+					}
 	    });
 	  });
 	})(window.jQuery);
