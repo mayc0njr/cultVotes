@@ -47,7 +47,28 @@ class MusicaController extends Controller
     }
 
     public function upload(){
+        // /**
+		// * Request related
+		// */
+		$file = \Request::file('documento');
+		$musicId = \Request::get('musicId'); 
         
+		// // /**
+		// // * Storage related
+		// // */
+		$storagePath = storage_path().'\arquivos\\'.$musicId;
+		$fileName = $file->getClientOriginalName();
+		
+		// // /**
+		// // * Database related
+		// // */
+		$fileModel = new \App\File();
+		$fileModel->name = $fileName;
+
+        $musica = Musica::find($musicId);
+        $musica->file()->save($fileModel);
+
+        return $file->move($storagePath, $fileName);
     }
 
     /**
