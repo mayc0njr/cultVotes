@@ -22,7 +22,7 @@
 			  <tbody class="text-center">
 				
 				@foreach($musicas as $m)
-				<tr>
+				<tr class="music-row" id="row-{{$m->id}}">
 					<td scope="row">{{ $m->id}}</td>
 					<td>{{$m->nome}}</td>
 					<td>{{$m->autor}}</td>
@@ -30,7 +30,7 @@
 					
 			      	</td>
 					<td>
-					    <div id="progress" class="progress">
+					    <div id="progress-{{$m->id}}" class="progress">
 					        <div class="progress-bar progress-bar-success"></div>
 					    </div>
 					</td>
@@ -38,14 +38,11 @@
 						<a class="btn" href="/admin/musicas/{{$m->id}}/edit" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>
 						<a class="btn" href="#" data-toggle="tooltip" data-placement="top" title="Imagem"><i class="fa fa-picture-o"></i></a>
 						
-
-						<!-- <a class="btn" href="#" data-toggle="tooltip" data-placement="top" title="Musica"><i class="fa fa-music"></i></a> -->
-						
 						<span class="btn fileinput-button">
-					        <i class="fa fa-music" style="color: blue"></i>
-					        <input id="fileupload" type="file" name="documento"
-					        data-token="{!! csrf_token() !!}" data-music-id="{{$m->id}}">
-					    </span>
+								<i class="fa fa-music" style="color: blue"></i>
+								<input id="fileupload-{{$m->id}}" type="file" name="documento"
+								data-token="{!! csrf_token() !!}" data-music-id="{{$m->id}}">
+						</span>
 
 						<a class="btn" href="#" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></a>
 					</td>
@@ -62,25 +59,30 @@
 
 @section('scripts')
 @parent
+<script type="text/javascript" src="{{asset('js/queryUtils.js')}}"></script>
 <script>
 	;(function($)
 	{
 	  'use strict';
 	  $(document).ready(function()
 	  {
-	  	var $fileupload     = $('#fileupload'),
-	  			$upload_success = $('#upload-success');
+	  	var fileupload     = '#fileupload-',
+	  			$upload_success = $('#upload-success'),
+					progressId;
 
-	    $fileupload.fileupload({
+			var uploads = []
+			$(".music-row").each(function(index, item){
+				var $id = $(fileupload + getId(item.id));
+				$id.fileupload({
 	        url: '/admin/music_upload',
-					formData: {_token: $fileupload.data('token'),  musicId: $fileupload.data('musicId')},
+					formData: {_token: $id.data('token'),  musicId: $id.data('musicId')},
 					start: function(e, data){
-						var progressId = '#progress-' + $fileupload.data('musicId');
+						progressId = '#progress-' + $id.data('musicId') + ' .progress-bar';
 						console.log(progressId);
 					},
 	        progressall: function (e, data) {
 							var progress = parseInt(data.loaded / data.total * 100, 10);
-	            $('#progress .progress-bar').css(
+	            $(progressId).css(
 	                'width',
 	                progress + '%'
 	            );
@@ -92,7 +94,10 @@
 							location.reload();
 						}, 300);
 					}
-	    });
+				});
+				uploads.push($id);
+			});
+	    
 	  });
 	})(window.jQuery);
 </script>
