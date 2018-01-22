@@ -56,7 +56,7 @@ class MusicaController extends Controller
 		// // /**
 		// // * Storage related
 		// // */
-		$storagePath = storage_path().'\arquivos\\'.$musicId;
+		$storagePath = storage_path().DIRECTORY_SEPARATOR.'arquivos'.DIRECTORY_SEPARATOR.$musicId;
 		$fileName = $file->getClientOriginalName();
 		
 		// // /**
