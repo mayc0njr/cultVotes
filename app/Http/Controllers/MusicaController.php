@@ -58,7 +58,7 @@ class MusicaController extends Controller
 		// // /**
 		// // * Storage related
 		// // */
-        $storagePath = storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'arquivos'.DIRECTORY_SEPARATOR.$musicId;    
+        $storagePath = storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$musicId;    
 		$fileName = 'track'. $musicId.'.mp3';
         
 		// // /**

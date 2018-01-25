@@ -38,7 +38,7 @@
 									@if(isset($m->file))
 										<div id="player-{{$m->id}}"> 
 											<audio controls>
-												<source src="{{asset("storage".DIRECTORY_SEPARATOR."arquivos".DIRECTORY_SEPARATOR.$m->id.DIRECTORY_SEPARATOR."track".$m->id.".mp3")}}" type="audio/mpeg">
+												<source src="{{asset("storage".DIRECTORY_SEPARATOR."app".DIRECTORY_SEPARATOR."public".DIRECTORY_SEPARATOR.$m->id.DIRECTORY_SEPARATOR."track".$m->id.".mp3")}}" type="audio/mpeg">
 											</audio>
 										</div>
 										<div class="progress-bar progress-bar-success hide" id="bar-{{$m->id}}"></div>

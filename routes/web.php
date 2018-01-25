@@ -39,4 +39,22 @@ Route::get('usuario/{userId}/download/{fileId}', ['as' => 'files.download', 'use
 
 Route::get('usuario/{userId}/remover/{fileId}', ['as' => 'files.destroy', 'uses' => 'UploadController@destroy']);
 //-------------------------------------------------------------------------------------->
+// File Storage Routes
 
+Route::get('storage/app/public/{musicId}/{filename}', function ($musicId, $filename)
+{
+	$path = storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$musicId.DIRECTORY_SEPARATOR.$filename;
+    // $path = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $musicId . DIRECTORY_SEPARATOR . $filename);
+
+    if (!File::exists($path)) {
+        abort(404);
+    }
+
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+});
