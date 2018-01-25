@@ -116,13 +116,17 @@ class MusicaController extends Controller
      */
     public function destroy(Musica $musica)
     {
-        $dir = public_path('storage'.DIRECTORY_SEPARATOR.'arquivos'.DIRECTORY_SEPARATOR.$musica->id);
-        Storage::deleteDirectory($dir);
+        $dir = $this->public_storage($musica->id);
+        $file = $dir.DIRECTORY_SEPARATOR."track$musica->id.mp3";
+        unlink($file);
+        rmdir($dir);
+        // // $dir = public_path('storage'.DIRECTORY_SEPARATOR.'arquivos'.DIRECTORY_SEPARATOR.$musica->id);
+        // Storage::deleteDirectory($dir);
         
-        // File::destroy($musica->file->id);
-        // Musica::destroy($musica->id);
-        // session()->flash('warning', 'Cadastro de música removido com sucesso!');
-        // return redirect('/admin/musicas');
+        File::destroy($musica->file->id);
+        Musica::destroy($musica->id);
+        session()->flash('warning', 'Cadastro de música removido com sucesso!');
+        return redirect('/admin/musicas');
     }
 
     
