@@ -20,9 +20,10 @@
     
     <link href="{{ asset('bower_components/components-font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
 
-
     <!-- Jquery FileUpload -->
     <link rel="stylesheet" href="/bower_components/blueimp-file-upload/css/jquery.fileupload.css">
+
+    @stack('css') 
 
 </head>
 <body>
