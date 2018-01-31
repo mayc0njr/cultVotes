@@ -12,7 +12,7 @@
 */
 Auth::routes();
 
-Route::get('/', function () {
+Route::get('/home', function () {
     return view('home');
 });
 
@@ -39,13 +39,12 @@ Route::get('usuario/{userId}/download/{fileId}', ['as' => 'files.download', 'use
 
 Route::get('usuario/{userId}/remover/{fileId}', ['as' => 'files.destroy', 'uses' => 'UploadController@destroy']);
 //-------------------------------------------------------------------------------------->
-// File Storage Routes
 
+// File Storage Routes
 Route::get('storage/app/public/{musicId}/{filename}', function ($musicId, $filename)
 {
 	$path = storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$musicId.DIRECTORY_SEPARATOR.$filename;
-    // $path = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $musicId . DIRECTORY_SEPARATOR . $filename);
-
+    
     if (!File::exists($path)) {
         abort(404);
     }

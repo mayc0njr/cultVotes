@@ -32,6 +32,34 @@
         @include('layouts.header')
         
         <section>
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true" aria-label="close">&times;</button>    
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+            @if(Session::has('error'))
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true" aria-label="close">&times;</button>    
+                {{Session::get('errors')}}
+            </div><!-- end alert alert-danger -->
+            @endif
+            @if(Session::has('info'))
+                <div class="alert alert-info">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" aria-label="close">&times;</button>
+                    {{Session::get('info')}}
+                </div><!-- end alert alert-info -->
+            @endif
+            @if(Session::has('warning'))
+                <div class="alert alert-warning">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" aria-label="close">&times;</button>
+                    {{Session::get('warning')}}
+                </div><!-- end alert alert-warning -->
+            @endif
             @yield('content')    
         </section>
     
