@@ -36,7 +36,7 @@ class UserController extends Controller
         $voto->users_id = Auth::id();
         $voto->musica_id = $idMusic;
         $voto->save();
-        session()->flash('sucess', 'Voto cadastrado com sucesso!');
+        session()->flash('success', 'Voto cadastrado com sucesso!');
         return redirect('/users/');
     }
 

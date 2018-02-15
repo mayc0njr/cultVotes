@@ -49,7 +49,7 @@ class MusicaController extends Controller
         ]);
 
         Musica::create($request->all());
-        session()->flash('sucess', 'Cadastro de música realizado com sucesso!');
+        session()->flash('success', 'Cadastro de música realizado com sucesso!');
         return redirect('/admin/musicas');
     }
 
@@ -84,7 +84,7 @@ class MusicaController extends Controller
             $musica->file()->save($fileModel);
         }
 
-        session()->flash('sucess', 'Upload realizado com sucesso!');
+        session()->flash('success', 'Upload realizado com sucesso!');
         return $file->move($storagePath, $fileName);
     }
 
@@ -113,7 +113,7 @@ class MusicaController extends Controller
         $musica->nome = $request->nome;
         $musica->autor = $request->autor;
         $musica->save();
-        session()->flash('sucess', 'Musica atualizada com sucesso!');
+        session()->flash('success', 'Musica atualizada com sucesso!');
         return redirect('/admin/musicas');
     }
 
