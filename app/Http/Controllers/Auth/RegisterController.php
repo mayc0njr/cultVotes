@@ -22,6 +22,8 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
+    protected $username = 'cpf';
+    
     /**
      * Where to redirect users after registration.
      *
@@ -50,7 +52,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'cpf' => 'required|string|max:11|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
-            'senha' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|confirmed',
         ]);
     }
 
@@ -65,7 +67,7 @@ class RegisterController extends Controller
         return User::create([
             'cpf' => $data['cpf'],
             'email' => $data['email'],
-            'senha' => bcrypt($data['senha']),
+            'password' => bcrypt($data['password']),
         ]);
     }
 }

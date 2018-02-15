@@ -49,7 +49,7 @@ class MusicaController extends Controller
         ]);
 
         Musica::create($request->all());
-        session()->flash('info', 'Cadastro de música realizado com sucesso!');
+        session()->flash('sucess', 'Cadastro de música realizado com sucesso!');
         return redirect('/admin/musicas');
     }
 
@@ -84,6 +84,7 @@ class MusicaController extends Controller
             $musica->file()->save($fileModel);
         }
 
+        session()->flash('sucess', 'Upload realizado com sucesso!');
         return $file->move($storagePath, $fileName);
     }
 
@@ -112,7 +113,7 @@ class MusicaController extends Controller
         $musica->nome = $request->nome;
         $musica->autor = $request->autor;
         $musica->save();
-        session()->flash('info', 'Musica atualizada com sucesso!');
+        session()->flash('sucess', 'Musica atualizada com sucesso!');
         return redirect('/admin/musicas');
     }
 
@@ -124,22 +125,27 @@ class MusicaController extends Controller
      */
     public function destroy(Musica $musica)
     {
-        $dir = $this->public_storage($musica->id);
-        $file = $dir.DIRECTORY_SEPARATOR."track$musica->id.mp3";
-        // /**
-		// * File delete
-		// */
-        unlink($file);
-        // /**
-		// * Directory delete
-		// */
-        rmdir($dir);
         
-        // /**
-		// * File register delete
-		// */
-        File::destroy($musica->file->id);
+        if(isset($musica->file)){
+
+            $dir = $this->public_storage($musica->id);
+            $file = $dir.DIRECTORY_SEPARATOR."track$musica->id.mp3";
+            // /**
+            // * File delete
+            // */
+            unlink($file);
+            // /**
+            // * Directory delete
+            // */
+            rmdir($dir);
+            
+            // /**
+            // * File register delete
+            // */
+            File::destroy($musica->file->id);
         
+        }
+
         // /**
 		// * Music register delete
 		// */
