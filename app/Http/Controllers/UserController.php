@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Voto;
+use App\User;
 use App\Musica;
 
 class UserController extends Controller
@@ -32,10 +32,10 @@ class UserController extends Controller
     }
 
     public function vote($idMusic){
-        $voto = new Voto();
-        $voto->users_id = Auth::id();
-        $voto->musica_id = $idMusic;
-        $voto->save();
+        $user = User::find(Auth::id());
+        $user->voto = $idMusic;
+        $user->save();
+
         session()->flash('success', 'Voto cadastrado com sucesso!');
         return redirect('/users/');
     }

@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'cpf', 'email', 'password',
+        'cpf', 'email', 'password', 'voto'
     ];
 
     /**
@@ -27,8 +27,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function voto(){
-        return $this->hasOne('App\Voto');
+    public function musica(){
+        return $this->belongsTo('App\Musica');
     }
-    
 }

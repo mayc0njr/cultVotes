@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Musica;
-use App\Voto;
+use App\User;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -25,29 +25,64 @@ class AdminController extends Controller
      */
     public function index()
     {
-        // total of records
-        $total_votos = Voto::count();
+        // Total geral de votos
+        $total_votos = User::where('voto','!=','null')->count();
 
-        // sum of the records grouped by music
-        $sum_votos = \DB::table('votos')
-        ->join('musicas','musica_id', '=', 'musicas.id')
-        ->select('musica_id','nome',\DB::raw ('count(*) as total'))
-        ->groupBy('musica_id')
+        // Total de votos por música, percentual,
+        $sum_votos = \DB::table('users')
+        ->select('voto', \DB::raw('count(*) as total'))
+        ->where('voto','!=','null')
+        ->groupBy('voto')
         ->get();
-        
-        foreach($sum_votos as $v){
-            $percent = number_format((($v->total / $total_votos) * 100), 2);
-            $v->percent = $percent;
-        }
 
+        foreach($sum_votos as $v){
+            $percent = $total_votos == 0 ? 0 : (number_format((($v->total / $total_votos) * 100), 2));
+            $v->percent = $percent;
+            $v->nome = Musica::find($v->voto)->nome;
+        }
+        
         return view('admins.home-admin')->with(compact('total_votos','sum_votos'));
     }
     
 
     public function relatorio(){
+        // lista de músicas,
         $musicas = Musica::all();
-        $votos = Voto::all();
-        $pdf = PDF::loadView('admins.relatorio', compact('votos', 'musicas'));
+        
+        // lista de votos -> cpf - nome da música,
+        $votos = \DB::table('users')
+        ->join('musicas', 'users.voto', '=', 'musicas.id')
+        ->select('cpf', 'nome')
+        ->where('voto','!=','null')
+        ->get();
+        
+        // Total geral de votos
+        $total_votos = User::where('voto','!=','null')->count();
+
+        // Total de votos por música, percentual,
+        $sum_votos = \DB::table('users')
+        ->select('voto', \DB::raw('count(*) as total'))
+        ->where('voto','!=','null')
+        ->groupBy('voto')
+        ->orderBy('total', 'desc')
+        ->get();
+
+        foreach($sum_votos as $v){
+            $percent = $total_votos == 0 ? 0 : (number_format((($v->total / $total_votos) * 100), 2));
+            $v->percent = $percent;
+            $v->nome = Musica::find($v->voto)->nome;
+        }
+
+        // //Música vencedora  ___ (Caso de Empate não tratado)
+        // $musica_vencedora = \DB::table('users')
+        // ->join('musicas', 'users.voto', '=', 'musicas.id')
+        // ->select('nome', \DB::raw('count(*) as total'))
+        // ->where('voto','!=','null')
+        // ->groupBy('voto')
+        // ->orderBy('total', 'desc')
+        // ->first();
+
+        $pdf = PDF::loadView('admins.relatorio', compact('musicas', 'votos' , 'sum_votos', 'total_votos'));
         return $pdf->stream('relatorio.pdf');
     }
 

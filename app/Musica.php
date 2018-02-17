@@ -29,7 +29,7 @@ class Musica extends Model
         return $this->hasOne('App\File');
     }
 
-    public function voto(){
-        return $this->hasMany('App\Voto');
+    public function user(){
+        return $this->hasMany('App\User');
     }
 }
