@@ -6,6 +6,7 @@ use App\Musica;
 use App\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Input;
 
 class MusicaController extends Controller
 {
@@ -48,7 +49,40 @@ class MusicaController extends Controller
             'autor' => 'required'
         ]);
 
-        Musica::create($request->all());
+        // /**
+		// * Musica Model Creation
+		// */
+        $musica = new \App\Musica();
+        $musica->nome = $request->nome;
+        $musica->autor = $request->autor;
+        $musica->save();
+
+        // /**
+		// * Retrieving File from form
+		// */
+        $file = Input::file('arquivo'); 
+    
+        if(isset($file)){
+            // /**
+            // * Storage related
+            // */
+            $storagePath = storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$musica->id;    
+            $fileName = 'track'. $musica->id.'.mp3';
+
+            
+            // /**
+            // * File Model Creation
+            // */
+            $fileModel = new \App\File();
+            $fileModel->name = $file->getClientOriginalName();
+            $musica->file()->save($fileModel);
+            
+            // /**
+            // * Save File 
+            // */
+            $file->move($storagePath, $fileName);
+        }
+
         session()->flash('success', 'Cadastro de música realizado com sucesso!');
         return redirect('/admin/musicas');
     }
@@ -57,7 +91,7 @@ class MusicaController extends Controller
         // /**
 		// * Request related
 		// */
-		$file = \Request::file('documento');
+		$file = \Request::file('arquivo');
 		$musicId = \Request::get('musicId'); 
         
 		// /**

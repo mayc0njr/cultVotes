@@ -56,7 +56,7 @@
 								
 								<span class="btn fileinput-button">
 										<i class="fa fa-music" style="color: blue"></i>
-										<input id="fileupload-{{$m->id}}" type="file" name="documento"
+										<input id="fileupload-{{$m->id}}" type="file" name="arquivo"
 										data-token="{!! csrf_token() !!}" data-music-id="{{$m->id}}">
 								</span>
 
