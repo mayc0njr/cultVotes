@@ -17,7 +17,9 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('cpf', 11)->unique();
             $table->string('email')->unique();
-            $table->string('senha');
+            $table->integer('voto')->unsigned()->nullable();
+            $table->foreign('voto')->references('id')->on('musicas')->onDelete('cascade');
+            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });

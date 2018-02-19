@@ -15,7 +15,7 @@
                             <label for="cpf" class="col-md-4 control-label">CPF</label>
 
                             <div class="col-md-6">
-                                <input id="cpf" type="text" class="form-control" name="cpf" value="{{ old('cpf') }}" required autofocus>
+                                <input id="cpf" type="text" class="form-control" name="cpf"  data-inputmask="'mask':'999.999.999-99'" value="{{ old('cpf') }}" required autofocus>
 
                                 @if ($errors->has('cpf'))
                                     <span class="help-block">
@@ -39,25 +39,25 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('senha') ? ' has-error' : '' }}">
-                            <label for="senha" class="col-md-4 control-label">Senha</label>
+                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                            <label for="password" class="col-md-4 control-label">Senha</label>
 
                             <div class="col-md-6">
-                                <input id="senha" type="password" class="form-control" name="senha" required>
+                                <input id="password" type="password" class="form-control" name="password" required>
 
-                                @if ($errors->has('senha'))
+                                @if ($errors->has('password'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('senha') }}</strong>
+                                        <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="senha-confirm" class="col-md-4 control-label">Confirmação de Senha</label>
+                            <label for="password-confirm" class="col-md-4 control-label">Confirmação de Senha</label>
 
                             <div class="col-md-6">
-                                <input id="senha-confirm" type="password" class="form-control" name="senha_confirmation" required>
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
 

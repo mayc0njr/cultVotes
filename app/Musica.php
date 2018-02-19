@@ -28,4 +28,8 @@ class Musica extends Model
     {
         return $this->hasOne('App\File');
     }
+
+    public function user(){
+        return $this->hasMany('App\User');
+    }
 }

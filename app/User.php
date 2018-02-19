@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'cpf', 'email', 'senha',
+        'cpf', 'email', 'password', 'voto'
     ];
 
     /**
@@ -24,6 +24,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'senha', 'remember_token',
+        'password', 'remember_token',
     ];
+
+    public function musica(){
+        return $this->belongsTo('App\Musica');
+    }
 }
