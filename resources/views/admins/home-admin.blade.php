@@ -8,7 +8,6 @@
             <div class="card border-dark">
                 <div class="card-header bg-transparent border-dark">
                     <span class="float-left">Status da Votação</span>
-                    <!-- <button class="btn btn-dark float-right"><i class="fas fa-sync"></i>Atualizar</button> -->
                 </div>
                 <div class="card-body text-dark">
                     

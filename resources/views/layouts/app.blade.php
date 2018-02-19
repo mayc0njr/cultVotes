@@ -83,6 +83,12 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('bower_components/inputmask/dist/jquery.inputmask.bundle.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+			Inputmask().mask(document.querySelectorAll("input"));
+		});
+    </script>
 </body>
 </html>
 

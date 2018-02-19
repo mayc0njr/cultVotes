@@ -73,15 +73,6 @@ class AdminController extends Controller
             $v->nome = Musica::find($v->voto)->nome;
         }
 
-        // //Música vencedora  ___ (Caso de Empate não tratado)
-        // $musica_vencedora = \DB::table('users')
-        // ->join('musicas', 'users.voto', '=', 'musicas.id')
-        // ->select('nome', \DB::raw('count(*) as total'))
-        // ->where('voto','!=','null')
-        // ->groupBy('voto')
-        // ->orderBy('total', 'desc')
-        // ->first();
-
         $pdf = PDF::loadView('admins.relatorio', compact('musicas', 'votos' , 'sum_votos', 'total_votos'));
         return $pdf->stream('relatorio.pdf');
     }
