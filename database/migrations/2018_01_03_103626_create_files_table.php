@@ -18,8 +18,6 @@ class CreateFilesTable extends Migration
             $table->string('name');
             $table->integer('musica_id')->unsigned();
             $table->foreign('musica_id')->references('id')->on('musicas')->onDelete('cascade');
-            // $table->integer('admin_id')->unsigned();
-            // $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
         });
     }
