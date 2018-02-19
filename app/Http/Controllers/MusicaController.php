@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Musica;
+use App\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MusicaController extends Controller
 {
@@ -56,17 +58,23 @@ class MusicaController extends Controller
 		// // /**
 		// // * Storage related
 		// // */
-		$storagePath = storage_path().DIRECTORY_SEPARATOR.'arquivos'.DIRECTORY_SEPARATOR.$musicId;
-		$fileName = $file->getClientOriginalName();
-		
+        $storagePath = storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$musicId;    
+		$fileName = 'track'. $musicId.'.mp3';
+        
 		// // /**
 		// // * Database related
-		// // */
-		$fileModel = new \App\File();
-		$fileModel->name = $fileName;
-
+        // // */
         $musica = Musica::find($musicId);
-        $musica->file()->save($fileModel);
+        
+        if(isset($musica->file)){
+            $fileModel = File::find($musica->file);
+            $fileModel->name =  $file->getClientOriginalName();
+        }
+        else{
+            $fileModel = new \App\File();
+            $fileModel->name = $file->getClientOriginalName();
+            $musica->file()->save($fileModel);
+        }
 
         return $file->move($storagePath, $fileName);
     }
@@ -108,9 +116,15 @@ class MusicaController extends Controller
      */
     public function destroy(Musica $musica)
     {
-        //Apagar imagem e arquivo.mp3 do storage
-        //and then...
-        Musica::destroy($id);
+        $dir = $this->public_storage($musica->id);
+        $file = $dir.DIRECTORY_SEPARATOR."track$musica->id.mp3";
+        unlink($file);
+        rmdir($dir);
+        // // $dir = public_path('storage'.DIRECTORY_SEPARATOR.'arquivos'.DIRECTORY_SEPARATOR.$musica->id);
+        // Storage::deleteDirectory($dir);
+        
+        File::destroy($musica->file->id);
+        Musica::destroy($musica->id);
         session()->flash('warning', 'Cadastro de música removido com sucesso!');
         return redirect('/admin/musicas');
     }
