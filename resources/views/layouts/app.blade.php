@@ -55,7 +55,7 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ Auth::user()->cpf }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu">
@@ -83,19 +83,12 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-
-
-    @section('scripts')
-    <!-- Scripts -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    
-    <!-- CDN jQuery v3.2.1 -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-    <script src="/bower_components/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
-    <script src="/bower_components/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
-    <script src="/bower_components/blueimp-file-upload/js/jquery.fileupload.js"></script>
-    @show
+    <script src="{{ asset('bower_components/inputmask/dist/jquery.inputmask.bundle.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+			Inputmask().mask(document.querySelectorAll("input"));
+		});
+    </script>
 </body>
 </html>
 

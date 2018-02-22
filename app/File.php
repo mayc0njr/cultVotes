@@ -23,9 +23,4 @@ class File extends Model
     {
         return $this->belongsTo('App\Musica');
     }
-
-    public function user()
-    {
-        return $this->belongsTo('App\Admin', 'admin_id');
-    }
 }

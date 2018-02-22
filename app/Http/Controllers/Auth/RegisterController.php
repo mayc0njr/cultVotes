@@ -22,6 +22,8 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
+    protected $username = 'cpf';
+    
     /**
      * Where to redirect users after registration.
      *
@@ -47,11 +49,32 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+        return Validator::make($data,
+            [
+                'cpf' => 'required|cpf|unique:users',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:6|confirmed',
+                'password_confirm' => 'required|min:6',
+            ],
+
+            $messages = [
+                'cpf.required' => 'O campo cpf é obrigatório.',
+                'cpf.cpf' => 'O campo não é um cpf válido.',
+                'cpf.unique' => 'Este cpf já está registrado no sistema.',
+
+                'email.required' => 'O campo email é obrigatório',
+                'email.email' => 'Endereço de email inválido.',
+                'email.max' => 'Endereço de email muito longo.',
+                'email.unique' => 'Este email já está registrado no sistema.',
+            
+                'password.required' => 'O campo senha é obrigatório.',
+                'password.min' => 'O campo senha deve ter no mínimo 6 caracteres.',
+                'password.confirmed' => 'O campo senha não confere com o campo confirmação de senha.',
+
+                'password_confirm.required' => 'O campo confirmação de senha é obrigatório',
+                'password_confirm.min' => 'O campo deve ter no mínimo 6 caracteres.',
+            ]
+        );
     }
 
     /**
@@ -63,7 +86,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'cpf' => $data['cpf'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);

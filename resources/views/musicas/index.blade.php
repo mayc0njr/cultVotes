@@ -1,12 +1,10 @@
 @extends('layouts.admin')
 
 @section('content')
-	<div class="row justify-content-center">
-	  <div class="col-8">
-			<div class="alert alert-success hide" id="upload-success">
-				Upload realizado com sucesso!
-			</div>
-			<br>
+<div class="container-fluid">
+	<div class="row justify-content-center py-5">
+	  	<div class="col-8">
+			
 			<div class="d-flex justify-content-between">
 				<p class="h3">Músicas</p>
 				<a href="/admin/musicas/create" class="btn btn-primary btn-md pull-right">Inserir</a>
@@ -34,23 +32,23 @@
 								
 							</td>
 							<td>
+							@if(isset($m->file))
+								<div id="player-{{$m->id}}"> 
+									<audio controls>
+										<source src="{{asset("storage".DIRECTORY_SEPARATOR."app".DIRECTORY_SEPARATOR."public".DIRECTORY_SEPARATOR.$m->id.DIRECTORY_SEPARATOR."track".$m->id.".mp3")}}" type="audio/mpeg">
+									</audio>
+								</div>
+							@else
 								<div id="progress-{{$m->id}}" class="progress">
-									@if(isset($m->file))
-										<div id="player-{{$m->id}}"> 
-											<audio controls>
-												<source src="{{asset("storage".DIRECTORY_SEPARATOR."app".DIRECTORY_SEPARATOR."public".DIRECTORY_SEPARATOR.$m->id.DIRECTORY_SEPARATOR."track".$m->id.".mp3")}}" type="audio/mpeg">
-											</audio>
-										</div>
-										<div class="progress-bar progress-bar-success hide" id="bar-{{$m->id}}"></div>
-									@else
-										<div class="hide" id="player-{{$m->id}}"> 
+									<div class="hide" id="player-{{$m->id}}"> 
 											<audio controls>
 												<source src="" type="audio/mpeg">
 											</audio>
 										</div>
 										<div class="progress-bar progress-bar-success" id="bar-{{$m->id}}"></div>
-									@endif	
+									
 								</div>
+							@endif	
 							</td>
 							<td class="d-flex justify-content-center">
 								<a class="btn" href="/admin/musicas/{{$m->id}}/edit" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>
@@ -58,7 +56,7 @@
 								
 								<span class="btn fileinput-button">
 										<i class="fa fa-music" style="color: blue"></i>
-										<input id="fileupload-{{$m->id}}" type="file" name="documento"
+										<input id="fileupload-{{$m->id}}" type="file" name="arquivo"
 										data-token="{!! csrf_token() !!}" data-music-id="{{$m->id}}">
 								</span>
 
@@ -74,8 +72,9 @@
 					</tbody>
 				</table>
 			</div>
-	  </div>
+	  	</div>
 	</div>
+</div>
 @endsection
 
 @push('css')

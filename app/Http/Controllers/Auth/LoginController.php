@@ -20,6 +20,8 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+    protected $username = 'cpf';
+
     /**
      * Where to redirect users after login.
      *
@@ -28,12 +30,24 @@ class LoginController extends Controller
     protected $redirectTo = '/home';
 
     /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'cpf';
+    }
+    
+    /**
      * Create a new controller instance.
      *
      * @return void
-     */
+    */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
     }
+
+    
 }

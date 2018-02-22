@@ -6,6 +6,7 @@ use App\Musica;
 use App\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Input;
 
 class MusicaController extends Controller
 {
@@ -43,8 +44,46 @@ class MusicaController extends Controller
      */
     public function store(Request $request)
     {   
-        Musica::create($request->all());
-        session()->flash('info', 'Cadastro de música realizado com sucesso!');
+        $validatedData = $request->validate([
+            'nome' => 'required',
+            'autor' => 'required'
+        ]);
+
+        // /**
+		// * Musica Model Creation
+		// */
+        $musica = new \App\Musica();
+        $musica->nome = $request->nome;
+        $musica->autor = $request->autor;
+        $musica->save();
+
+        // /**
+		// * Retrieving File from form
+		// */
+        $file = Input::file('arquivo'); 
+    
+        if(isset($file)){
+            // /**
+            // * Storage related
+            // */
+            $storagePath = storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$musica->id;    
+            $fileName = 'track'. $musica->id.'.mp3';
+
+            
+            // /**
+            // * File Model Creation
+            // */
+            $fileModel = new \App\File();
+            $fileModel->name = $file->getClientOriginalName();
+            $musica->file()->save($fileModel);
+            
+            // /**
+            // * Save File 
+            // */
+            $file->move($storagePath, $fileName);
+        }
+
+        session()->flash('success', 'Cadastro de música realizado com sucesso!');
         return redirect('/admin/musicas');
     }
 
@@ -52,20 +91,23 @@ class MusicaController extends Controller
         // /**
 		// * Request related
 		// */
-		$file = \Request::file('documento');
+		$file = \Request::file('arquivo');
 		$musicId = \Request::get('musicId'); 
         
-		// // /**
-		// // * Storage related
-		// // */
+		// /**
+		// * Storage related
+		// */
         $storagePath = storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$musicId;    
 		$fileName = 'track'. $musicId.'.mp3';
         
-		// // /**
-		// // * Database related
-        // // */
+		// /**
+		// * Database related
+        // */
         $musica = Musica::find($musicId);
         
+        // /**
+		// * Create new file record through related music
+        // */
         if(isset($musica->file)){
             $fileModel = File::find($musica->file);
             $fileModel->name =  $file->getClientOriginalName();
@@ -76,6 +118,7 @@ class MusicaController extends Controller
             $musica->file()->save($fileModel);
         }
 
+        session()->flash('success', 'Upload realizado com sucesso!');
         return $file->move($storagePath, $fileName);
     }
 
@@ -104,25 +147,46 @@ class MusicaController extends Controller
         $musica->nome = $request->nome;
         $musica->autor = $request->autor;
         $musica->save();
-        session()->flash('info', 'Musica atualizada com sucesso!');
+        session()->flash('success', 'Musica atualizada com sucesso!');
         return redirect('/admin/musicas');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified register from system.
      *
      * @param  \App\Musica  $musica
      * @return \Illuminate\Http\Response
      */
     public function destroy(Musica $musica)
     {
-        $dir = public_path('storage'.DIRECTORY_SEPARATOR.'arquivos'.DIRECTORY_SEPARATOR.$musica->id);
-        Storage::deleteDirectory($dir);
         
-        // File::destroy($musica->file->id);
-        // Musica::destroy($musica->id);
-        // session()->flash('warning', 'Cadastro de música removido com sucesso!');
-        // return redirect('/admin/musicas');
+        if(isset($musica->file)){
+
+            $dir = $this->public_storage($musica->id);
+            $file = $dir.DIRECTORY_SEPARATOR."track$musica->id.mp3";
+            // /**
+            // * File delete
+            // */
+            unlink($file);
+            // /**
+            // * Directory delete
+            // */
+            rmdir($dir);
+            
+            // /**
+            // * File register delete
+            // */
+            File::destroy($musica->file->id);
+        
+        }
+
+        // /**
+		// * Music register delete
+		// */
+        Musica::destroy($musica->id);
+
+        session()->flash('warning', 'Cadastro de música removido com sucesso!');
+        return redirect('/admin/musicas');
     }
 
     

@@ -1,9 +1,12 @@
 <!-- Main Footer -->
-<footer class="main-footer">
-    <!-- To the right -->
-    <div class="pull-right hidden-xs">
-        Versão 1.0
+<footer class="footer fixed-bottom bg-dark">
+    <div class="d-flex justify-content-between">
+        <strong class="text-light">CultVotes </strong>. 
+        
+        <div class="">
+            <span class="text-light">Versão 1.0</span> 
+        </div>
+    
     </div>
-    <!-- Default to the left -->
-    <strong>Sistema  <a href="#">PMJM</a>.</strong>.
+    
 </footer>
