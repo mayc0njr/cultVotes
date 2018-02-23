@@ -20,3 +20,6 @@ Homestead.json
 .rocketeer/
 
 storage/arquivos
+
+# SASS
+.sass-cache/

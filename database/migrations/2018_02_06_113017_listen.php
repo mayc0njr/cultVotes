@@ -15,6 +15,8 @@ class Listen extends Migration
     {
         Schema::create('listen', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('musica_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->foreign('musica_id')->references('id')->on('musicas')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

@@ -1,0 +1,151 @@
+$button-size: 70px;
+$button-small-size: 50px;
+$button-big-size: 100px;
+$progress-height: 15px;
+// $player-width: 300px;
+$player-width: 220px;
+$time-width: 30px;
+$progress-width: $player-width;
+$progress-border-width: (($progress-height%10)/2)px;
+$time-margin-top: -(($progress-height%10));
+$circle: 9999px;
+$player-background: #000000;
+$progress-background: #1f1f1f;
+$progress-filled-background: #3f7fff;
+$button-background: #000000;
+$button-hover-background: #171717;
+$button-border:#ffffff;
+$button-foreground: #ffffff;
+$overlap-size: -30px;
+$overlap-small-size: -20px;
+$overlap-big-size: -50px;
+//Set border radius to different browser
+@mixin border-radius($radius){
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    border-radius: $radius;
+}
+//Set border radius to different browser (top left)
+@mixin border-radius-top-left($radius){
+    -webkit-border-top-left-radius: $radius;
+    -moz-border-top-left-radius: $radius;
+    -ms-border-top-left-radius: $radius;
+    border-top-left-radius: $radius;
+}
+
+//Set border radius to different browser (top right)
+@mixin border-radius-top-right($radius){
+    -webkit-border-top-right-radius: $radius;
+    -moz-border-top-right-radius: $radius;
+    -ms-border-top-right-radius: $radius;
+    border-top-right-radius: $radius;
+}
+
+//Set border radius to different browser (bottom left)
+@mixin border-radius-bottom-left($radius){
+    -webkit-border-bottom-left-radius: $radius;
+    -moz-border-bottom-left-radius: $radius;
+    -ms-border-bottom-left-radius: $radius;
+    border-bottom-left-radius: $radius;
+}
+
+//Set border radius to different browser (bottom right)
+@mixin border-radius-bottom-right($radius){
+    -webkit-border-bottom-right-radius: $radius;
+    -moz-border-bottom-right-radius: $radius;
+    -ms-border-bottom-right-radius: $radius;
+    border-bottom-right-radius: $radius;
+}
+
+//base div, corresponding do the player itself
+.cap-player{
+    background-color: $player-background;
+    width: $player-width;
+    @include border-radius-bottom-left(10px);
+    @include border-radius-bottom-right(10px);
+}
+
+//represents a button, include the focus state to remove dotted border after click
+.cap-btn, .cap-btn:focus{
+    outline: 0;
+    @include border-radius($circle);
+    background-color: $button-background;
+    color: $button-foreground;
+    position: relative;
+}
+//makes a hovered buttons a little different.
+.cap-btn:hover{
+    @extend .cap-btn;
+    background-color: $button-hover-background; 
+}
+
+//Set the component to a large size.
+.cap-lg{
+    height: $button-big-size;
+    width: $button-big-size;
+}
+//Set the component to a small size.
+.cap-sm{
+    height: $button-small-size;
+    width: $button-small-size;
+}
+
+//Set the component to a medium size.
+.cap-md{
+    height: $button-size;
+    width: $button-size;
+}
+
+// Represents the progress bar.
+.cap-progress{
+    height: $progress-height;
+    width: $player-width;
+    background-color: $progress-background;
+    border-color: $player-background;
+    border-width: $progress-border-width;
+    border-style: solid;
+    position: relative;
+    // Represents the part filled of the progress bar
+    .cap-progress-filled{
+        width: 0%;
+        background-color: $progress-filled-background;
+    }
+    // Shows the music time in the progress bar.
+    .cap-time{
+        width: $time-width;
+        color: $button-foreground;
+        font-size: small;
+        font-weight: bold;
+        position: absolute;
+        align-content: center;
+        left: ($player-width - $time-width)/2;
+        right: ($player-width - $time-width)/2;
+        // margin: 0px;
+        margin-top: $time-margin-top;
+        top: 0px;
+        padding: 0px;
+        padding-top: 0px;
+    }
+}
+
+.cap-back{
+    z-index: 1;
+}
+.cap-front{
+    z-index: 2;
+}
+
+.cap-overlap-small-right{
+    margin-right: $overlap-small-size
+}
+
+.cap-overlap-small-left{
+    margin-left: $overlap-small-size
+}
+
+//includes a border in the component
+.cap-border{
+    border-color: $button-border;
+    border-width: 1px;
+}
