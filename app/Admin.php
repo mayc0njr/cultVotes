@@ -1,13 +1,10 @@
 <?php
 
-namespace App;
-
-use Illuminate\Notifications\Notifiable;
+namespace CultVotes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Admin extends Authenticatable
 {
-    use Notifiable;
 
     protected $guard = 'admin';
     /**

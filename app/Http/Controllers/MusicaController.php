@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace CultVotes\Http\Controllers;
 
-use App\Musica;
-use App\File;
+use CultVotes\Musica;
+use CultVotes\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Auth;
 
 class MusicaController extends Controller
 {
@@ -52,7 +53,7 @@ class MusicaController extends Controller
         // /**
 		// * Musica Model Creation
 		// */
-        $musica = new \App\Musica();
+        $musica = new \CultVotes\Musica();
         $musica->nome = $request->nome;
         $musica->autor = $request->autor;
         $musica->save();
@@ -73,7 +74,7 @@ class MusicaController extends Controller
             // /**
             // * File Model Creation
             // */
-            $fileModel = new \App\File();
+            $fileModel = new \CultVotes\File();
             $fileModel->name = $file->getClientOriginalName();
             $musica->file()->save($fileModel);
             
@@ -113,7 +114,7 @@ class MusicaController extends Controller
             $fileModel->name =  $file->getClientOriginalName();
         }
         else{
-            $fileModel = new \App\File();
+            $fileModel = new \CultVotes\File();
             $fileModel->name = $file->getClientOriginalName();
             $musica->file()->save($fileModel);
         }
@@ -125,7 +126,7 @@ class MusicaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Musica  $musica
+     * @param  \CultVotes\Musica  $musica
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -138,7 +139,7 @@ class MusicaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Musica  $musica
+     * @param  \CultVotes\Musica  $musica
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -154,7 +155,7 @@ class MusicaController extends Controller
     /**
      * Remove the specified register from system.
      *
-     * @param  \App\Musica  $musica
+     * @param  \CultVotes\Musica  $musica
      * @return \Illuminate\Http\Response
      */
     public function destroy(Musica $musica)
@@ -188,6 +189,4 @@ class MusicaController extends Controller
         session()->flash('warning', 'Cadastro de música removido com sucesso!');
         return redirect('/admin/musicas');
     }
-
-    
 }

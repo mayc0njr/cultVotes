@@ -1,16 +1,12 @@
 <?php
 
-namespace App;
+namespace CultVotes;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Musica extends Model
 {
-    
-	use Notifiable;
-
     protected $guard = 'admin';
     /**
      * The attributes that are mass assignable.
@@ -26,10 +22,10 @@ class Musica extends Model
     */
     public function file()
     {
-        return $this->hasOne('App\File');
+        return $this->hasOne('CultVotes\File');
     }
 
     public function user(){
-        return $this->hasMany('App\User');
+        return $this->hasMany('CultVotes\User');
     }
 }

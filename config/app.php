@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'pt-br',
 
     /*
     |--------------------------------------------------------------------------
@@ -172,11 +172,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        CultVotes\Providers\AppServiceProvider::class,
+        CultVotes\Providers\AuthServiceProvider::class,
+        // CultVotes\Providers\BroadcastServiceProvider::class,
+        CultVotes\Providers\EventServiceProvider::class,
+        CultVotes\Providers\RouteServiceProvider::class,
 
         LaravelLegends\PtBrValidator\ValidatorProvider::class,
     ],

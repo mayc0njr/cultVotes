@@ -1,9 +1,10 @@
 <?php
 
-namespace App;
+namespace CultVotes;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use CultVotes\Notifications\emaildeRecuperacaodeSenha;
 
 class User extends Authenticatable
 {
@@ -28,6 +29,10 @@ class User extends Authenticatable
     ];
 
     public function musica(){
-        return $this->belongsTo('App\Musica');
+        return $this->belongsTo('CultVotes\Musica');
+    }
+
+    public function sendPasswordResetNotification($token){
+        $this->notify(new emaildeRecuperacaodeSenha($token));
     }
 }

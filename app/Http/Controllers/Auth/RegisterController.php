@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace CultVotes\Http\Controllers\Auth;
 
-use App\User;
-use App\Http\Controllers\Controller;
+use CultVotes\User;
+use CultVotes\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -49,15 +49,17 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data,
+        $inputs = $data;
+        $inputs['cpf'] = preg_replace('/[.-]/', '', $data['cpf']);
+
+        return Validator::make($inputs,
             [
                 'cpf' => 'required|cpf|unique:users',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:6|confirmed',
-                'password_confirm' => 'required|min:6',
             ],
 
-            $messages = [
+            [
                 'cpf.required' => 'O campo cpf é obrigatório.',
                 'cpf.cpf' => 'O campo não é um cpf válido.',
                 'cpf.unique' => 'Este cpf já está registrado no sistema.',
@@ -70,9 +72,6 @@ class RegisterController extends Controller
                 'password.required' => 'O campo senha é obrigatório.',
                 'password.min' => 'O campo senha deve ter no mínimo 6 caracteres.',
                 'password.confirmed' => 'O campo senha não confere com o campo confirmação de senha.',
-
-                'password_confirm.required' => 'O campo confirmação de senha é obrigatório',
-                'password_confirm.min' => 'O campo deve ter no mínimo 6 caracteres.',
             ]
         );
     }
@@ -81,12 +80,12 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \CultVotes\User
      */
     protected function create(array $data)
     {
         return User::create([
-            'cpf' => $data['cpf'],
+            'cpf' => preg_replace('/[.-]/', '', $data['cpf']),
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);

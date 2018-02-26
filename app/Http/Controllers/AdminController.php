@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
-use App\Musica;
-use App\User;
-use Illuminate\Http\Request;
+namespace CultVotes\Http\Controllers;
+use CultVotes\Musica;
+use CultVotes\User;
 use PDF;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
