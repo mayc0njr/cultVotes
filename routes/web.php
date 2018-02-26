@@ -55,12 +55,11 @@ Route::get('storage/app/public/{musicId}/{filename}', function ($musicId, $filen
     return $response;
 });
 
-
-
 Route::prefix('users')->group(function(){
     Route::get('/', 'UserController@index');
     Route::get('/vote/{id}', 'UserController@vote');
-
+    Route::get('/votacao', 'UserController@votacao');
+    Route::post('/listen', 'UserController@listen')->name('listen');
 });
 
 
